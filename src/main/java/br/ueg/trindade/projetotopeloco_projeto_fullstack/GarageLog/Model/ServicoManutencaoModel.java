@@ -1,4 +1,4 @@
-package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog;
+package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

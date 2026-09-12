@@ -1,4 +1,4 @@
-package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog;
+package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
