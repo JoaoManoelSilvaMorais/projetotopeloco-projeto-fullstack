@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Enum.TipoServico;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,6 +31,7 @@ public class ServicoManutencaoModel {
     private BigDecimal custoMaoDeObra;
 
     @ManyToOne
+    @JsonIgnore
     private VeiculoModel veiculo;
 
     public ServicoManutencaoModel() {
