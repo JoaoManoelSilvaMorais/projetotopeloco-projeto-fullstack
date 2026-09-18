@@ -1,4 +1,4 @@
-package br.ueg.trindade.projetotopeloco_projeto_fullstack;
+package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

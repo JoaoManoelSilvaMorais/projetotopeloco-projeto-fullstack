@@ -4,7 +4,8 @@
 //é só uma questão de atualização do React. O código ainda 
 // funciona normalmente.
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import api from "../services/api";
 import type { Usuario } from "../types/Usuario";
 

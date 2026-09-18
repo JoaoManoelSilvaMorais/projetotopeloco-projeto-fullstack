@@ -1,4 +1,4 @@
-package br.ueg.trindade.projetotopeloco_projeto_fullstack;
+package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Controller;
 
 import java.util.List;
 
@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.UsuarioModel;
+import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/api")
