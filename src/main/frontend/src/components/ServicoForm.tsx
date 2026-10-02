@@ -1,16 +1,14 @@
 import { useState, type FormEvent } from "react";
-import api from "../services/api";
 import type { ServicoManutencao } from "../types/Veiculo";
 
 interface ServicoFormProps {
-  veiculoId: string;
   servicoEditando?: ServicoManutencao | null;
-  onServicoSalvo: () => void;
+  onServicoSalvo: (dados: Omit<ServicoManutencao, "id">) => void | Promise<void>;
 }
 
 const tipos = ["MECANICA_PREVENTIVA", "MECANICA_CORRETIVA", "UPGRADE_PERFORMANCE"];
 
-function ServicoForm({ veiculoId, servicoEditando, onServicoSalvo }: ServicoFormProps) {
+function ServicoForm({ servicoEditando, onServicoSalvo }: ServicoFormProps) {
   const [tipoIntervencao, setTipoIntervencao] = useState(servicoEditando?.tipoIntervencao ?? "MECANICA_PREVENTIVA");
   const [descricao, setDescricao] = useState(servicoEditando?.descricao ?? "");
   const [dataRealizacao, setDataRealizacao] = useState(servicoEditando?.dataRealizacao ?? "");
@@ -30,15 +28,7 @@ function ServicoForm({ veiculoId, servicoEditando, onServicoSalvo }: ServicoForm
       custoPecas: custoPecas ? Number(custoPecas) : null,
       custoMaoDeObra: custoMaoDeObra ? Number(custoMaoDeObra) : null,
     };
-    const config = { params: { veiculoId } };
-
-    if (servicoEditando) {
-      await api.put(`/servicos-manutencao/${servicoEditando.id}`, dados, config);
-    } else {
-      await api.post("/servicos-manutencao", dados, config);
-    }
-
-    onServicoSalvo();
+    await onServicoSalvo(dados);
   }
 
   return (

@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from "react";
-import api from "../services/api";
 import type { Veiculo } from "../types/Veiculo";
 
 interface VeiculoFormProps {
-  onVeiculoSalvo: () => void;
+  onVeiculoSalvo: (dados: Omit<Veiculo, "id">) => void | Promise<void>;
   veiculoEditando?: Veiculo | null;
 }
 
@@ -28,13 +27,7 @@ function VeiculoForm({ onVeiculoSalvo, veiculoEditando }: VeiculoFormProps) {
       anoFabricacao: Number(anoFabricacao),
     };
 
-    if (veiculoEditando) {
-      await api.put(`/veiculos/${veiculoEditando.id}`, dados);
-    } else {
-      await api.post("/veiculos", dados);
-    }
-
-    onVeiculoSalvo();
+    await onVeiculoSalvo(dados);
   }
 
   return (

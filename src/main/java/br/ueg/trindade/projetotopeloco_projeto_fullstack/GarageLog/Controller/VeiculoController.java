@@ -17,66 +17,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.VeiculoModel;
-import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.VeiculoRepository;
+import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Service.VeiculoService;
 
 @RestController
 @RequestMapping("/api/veiculos")
 @CrossOrigin(origins = "http://localhost:5173")
 public class VeiculoController {
 
-    private final VeiculoRepository veiculoRepository;
+    private final VeiculoService veiculoService;
 
-    public VeiculoController(VeiculoRepository veiculoRepository) {
-        this.veiculoRepository = veiculoRepository;
+    public VeiculoController(VeiculoService veiculoService) {
+        this.veiculoService = veiculoService;
     }
 
     @GetMapping
     public List<VeiculoModel> listar() {
-        return veiculoRepository.findAll();
+        return veiculoService.listarTodos();
     }
 
     @GetMapping("/{id}")
     public VeiculoModel buscarPorId(@PathVariable UUID id) {
-        return buscarVeiculo(id);
+        return veiculoService.buscarPorId(id);
     }
 
     @GetMapping("/{id}/gastos")
-    public BigDecimal calcularGastos(
-            @PathVariable UUID id,
-            @RequestParam LocalDate inicio,
-            @RequestParam LocalDate fim) {
-        return buscarVeiculo(id).calcularGastosTotais(inicio, fim);
+    public BigDecimal calcularGastos(@PathVariable UUID id,
+            @RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
+        return veiculoService.calcularGastos(id, inicio, fim);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VeiculoModel criar(@RequestBody VeiculoModel veiculo) {
-        return veiculoRepository.save(veiculo);
+        return veiculoService.criar(veiculo);
     }
 
     @PutMapping("/{id}")
     public VeiculoModel atualizar(@PathVariable UUID id, @RequestBody VeiculoModel dados) {
-        VeiculoModel veiculo = buscarVeiculo(id);
-        veiculo.setPlaca(dados.getPlaca());
-        veiculo.setMarca(dados.getMarca());
-        veiculo.setModeloBase(dados.getModeloBase());
-        veiculo.setCategoria(dados.getCategoria());
-        veiculo.setEspecificacaoMotor(dados.getEspecificacaoMotor());
-        veiculo.setAnoFabricacao(dados.getAnoFabricacao());
-        return veiculoRepository.save(veiculo);
+        return veiculoService.atualizar(id, dados);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable UUID id) {
-        veiculoRepository.delete(buscarVeiculo(id));
-    }
-
-    private VeiculoModel buscarVeiculo(UUID id) {
-        return veiculoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Veículo não encontrado"));
+        veiculoService.excluir(id);
     }
 }

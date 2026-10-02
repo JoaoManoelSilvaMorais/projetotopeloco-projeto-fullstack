@@ -15,77 +15,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.DespesaRecorrenteModel;
-import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.VeiculoModel;
-import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.DespesaRecorrenteRepository;
-import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.VeiculoRepository;
+import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Service.DespesaRecorrenteService;
 
 @RestController
 @RequestMapping("/api/despesas-recorrentes")
 @CrossOrigin(origins = "http://localhost:5173")
 public class DespesaRecorrenteController {
 
-    private final DespesaRecorrenteRepository despesaRepository;
-    private final VeiculoRepository veiculoRepository;
+    private final DespesaRecorrenteService despesaService;
 
-    public DespesaRecorrenteController(DespesaRecorrenteRepository despesaRepository,
-            VeiculoRepository veiculoRepository) {
-        this.despesaRepository = despesaRepository;
-        this.veiculoRepository = veiculoRepository;
+    public DespesaRecorrenteController(DespesaRecorrenteService despesaService) {
+        this.despesaService = despesaService;
     }
 
     @GetMapping
     public List<DespesaRecorrenteModel> listar(@RequestParam(required = false) UUID veiculoId) {
         if (veiculoId == null) {
-            return despesaRepository.findAll();
+            return despesaService.listarTodos();
         }
-        return despesaRepository.findAll().stream()
-                .filter(despesa -> despesa.getVeiculo() != null
-                        && veiculoId.equals(despesa.getVeiculo().getId()))
-                .toList();
+        return despesaService.listarPorVeiculo(veiculoId);
     }
 
     @GetMapping("/{id}")
     public DespesaRecorrenteModel buscarPorId(@PathVariable UUID id) {
-        return buscarDespesa(id);
+        return despesaService.buscarPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DespesaRecorrenteModel criar(@RequestBody DespesaRecorrenteModel despesa,
             @RequestParam UUID veiculoId) {
-        despesa.setVeiculo(buscarVeiculo(veiculoId));
-        return despesaRepository.save(despesa);
+        return despesaService.criar(despesa, veiculoId);
     }
 
     @PutMapping("/{id}")
     public DespesaRecorrenteModel atualizar(@PathVariable UUID id,
             @RequestBody DespesaRecorrenteModel dados,
             @RequestParam UUID veiculoId) {
-        DespesaRecorrenteModel despesa = buscarDespesa(id);
-        despesa.setTipo(dados.getTipo());
-        despesa.setValorMensal(dados.getValorMensal());
-        despesa.setDiaVencimento(dados.getDiaVencimento());
-        despesa.setStatusAtivo(dados.getStatusAtivo());
-        despesa.setVeiculo(buscarVeiculo(veiculoId));
-        return despesaRepository.save(despesa);
+        return despesaService.atualizar(id, dados, veiculoId);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable UUID id) {
-        despesaRepository.delete(buscarDespesa(id));
-    }
-
-    private DespesaRecorrenteModel buscarDespesa(UUID id) {
-        return despesaRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Despesa não encontrada"));
-    }
-
-    private VeiculoModel buscarVeiculo(UUID id) {
-        return veiculoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Veículo não encontrado"));
+        despesaService.excluir(id);
     }
 }

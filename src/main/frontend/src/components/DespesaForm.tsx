@@ -1,16 +1,14 @@
 import { useState, type FormEvent } from "react";
-import api from "../services/api";
 import type { DespesaRecorrente } from "../types/Veiculo";
 
 interface DespesaFormProps {
-  veiculoId: string;
   despesaEditando?: DespesaRecorrente | null;
-  onDespesaSalva: () => void;
+  onDespesaSalva: (dados: Omit<DespesaRecorrente, "id">) => void | Promise<void>;
 }
 
 const tipos = ["PROTECAO_VEICULAR", "IMPOSTO", "ASSISTENCIA_24H"];
 
-function DespesaForm({ veiculoId, despesaEditando, onDespesaSalva }: DespesaFormProps) {
+function DespesaForm({ despesaEditando, onDespesaSalva }: DespesaFormProps) {
   const [tipo, setTipo] = useState(despesaEditando?.tipo ?? "PROTECAO_VEICULAR");
   const [valorMensal, setValorMensal] = useState(despesaEditando?.valorMensal?.toString() ?? "");
   const [diaVencimento, setDiaVencimento] = useState(despesaEditando?.diaVencimento?.toString() ?? "");
@@ -24,15 +22,7 @@ function DespesaForm({ veiculoId, despesaEditando, onDespesaSalva }: DespesaForm
       diaVencimento: Number(diaVencimento),
       statusAtivo,
     };
-    const config = { params: { veiculoId } };
-
-    if (despesaEditando) {
-      await api.put(`/despesas-recorrentes/${despesaEditando.id}`, dados, config);
-    } else {
-      await api.post("/despesas-recorrentes", dados, config);
-    }
-
-    onDespesaSalva();
+    await onDespesaSalva(dados);
   }
 
   return (
