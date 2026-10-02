@@ -1,10 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import api from "../services/api";
 import type { Permissao } from "../types/Permissao";
 
 interface PermissaoFormProps {
-  onPermissaoSalva: () => void;
+  onPermissaoSalva: (dados: Omit<Permissao, "id">) => void | Promise<void>;
   permissaoEditando?: Permissao | null;
 }
 
@@ -16,15 +15,7 @@ function PermissaoForm({ onPermissaoSalva, permissaoEditando }: PermissaoFormPro
     event.preventDefault();
     const dados = { nome, descricao };
 
-    if (permissaoEditando) {
-      await api.put(`/permissao/${permissaoEditando.id}`, dados);
-    } else {
-      await api.post("/permissao", dados);
-    }
-
-    setNome("");
-    setDescricao("");
-    onPermissaoSalva();
+    await onPermissaoSalva(dados);
   }
 
   return (

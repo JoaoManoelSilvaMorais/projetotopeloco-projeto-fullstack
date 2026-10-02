@@ -2,7 +2,6 @@ package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,51 +13,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.PermissaoModel;
-import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.PermissaoRepository;
+import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Service.PermissaoService;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/permissao")
 @CrossOrigin(origins = "http://localhost:5173")
 public class PermissaoController {
-    @Autowired
-	private PermissaoRepository permissaoRepository;
+	private final PermissaoService permissaoService;
 
-	PermissaoController(PermissaoRepository permissaoRepository) {
-		this.permissaoRepository = permissaoRepository;
+	public PermissaoController(PermissaoService permissaoService) {
+		this.permissaoService = permissaoService;
 	}
 
-	@GetMapping("/permissao")
-	public List<PermissaoModel> getAllPermissao() {
-		return permissaoRepository.findAll();
+	@GetMapping
+	public List<PermissaoModel> listarTodos() {
+		return permissaoService.listarTodos();
 	}
 
-	@GetMapping("/permissao/{id}")
-	public PermissaoModel getPermissaoById(@PathVariable Long id) {
-		return permissaoRepository.findById(id)
-
-				.orElseThrow(() -> new RuntimeException("Permissão não encontrada"));
-
+	@GetMapping("/{id}")
+	public PermissaoModel buscarPorId(@PathVariable Long id) {
+		return permissaoService.buscarPorId(id);
 	}
 
-	@DeleteMapping("/permissao/{id}")
-	public void deleteUsuario(@PathVariable Long id) {
-		permissaoRepository.deleteById(id);
+	@DeleteMapping("/{id}")
+	public void excluir(@PathVariable Long id) {
+		permissaoService.excluir(id);
 	}
 
-	@PostMapping("/permissao")
-	public PermissaoModel createPermissao(@RequestBody PermissaoModel permissao) {
-		return permissaoRepository.save(permissao);
+	@PostMapping
+	public PermissaoModel criar(@RequestBody PermissaoModel permissao) {
+		return permissaoService.criar(permissao);
 	}
 
-	@PutMapping("/permissao/{id}")
-	public PermissaoModel updatePermissao(@PathVariable Long id, @RequestBody PermissaoModel permissaoAtualizada) {
-		PermissaoModel permissao = permissaoRepository.findById(id)
-
-				.orElseThrow(() -> new RuntimeException("Permissão não encontrada"));
-
-		permissao.setNome(permissaoAtualizada.getNome());
-		permissao.setDescricao(permissaoAtualizada.getDescricao());
-		return permissaoRepository.save(permissao);
+	@PutMapping("/{id}")
+	public PermissaoModel atualizar(@PathVariable Long id, @RequestBody PermissaoModel permissao) {
+		return permissaoService.atualizar(id, permissao);
 	}
 }

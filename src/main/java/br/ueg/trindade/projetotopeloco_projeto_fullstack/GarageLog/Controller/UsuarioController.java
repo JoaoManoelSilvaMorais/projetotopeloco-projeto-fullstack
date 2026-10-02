@@ -2,7 +2,6 @@ package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,52 +13,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.UsuarioModel;
-import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.UsuarioRepository;
+import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Service.UsuarioService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "http://localhost:5173")
 public class UsuarioController {
-	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private final UsuarioService usuarioService;
 
-	UsuarioController(UsuarioRepository usuarioRepository) {
-		this.usuarioRepository = usuarioRepository;
+	public UsuarioController(UsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
 	}
 
-	@GetMapping("/usuarios")
-	public List<UsuarioModel> getAllUsuarios() {
-		return usuarioRepository.findAll();
+	@GetMapping
+	public List<UsuarioModel> listarTodos() {
+		return usuarioService.listarTodos();
 	}
 
-	@GetMapping("/usuarios/{id}")
-	public UsuarioModel getUsuarioById(@PathVariable Long id) {
-		return usuarioRepository.findById(id)
-
-				.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
+	@GetMapping("/{id}")
+	public UsuarioModel buscarPorId(@PathVariable Long id) {
+		return usuarioService.buscarPorId(id);
 	}
 
-	@DeleteMapping("/usuarios/{id}")
-	public void deleteUsuario(@PathVariable Long id) {
-		usuarioRepository.deleteById(id);
+	@DeleteMapping("/{id}")
+	public void excluir(@PathVariable Long id) {
+		usuarioService.excluir(id);
 	}
 
-	@PostMapping("/usuarios")
-	public UsuarioModel createUsuario(@RequestBody UsuarioModel usuario) {
-		return usuarioRepository.save(usuario);
+	@PostMapping
+	public UsuarioModel criar(@RequestBody UsuarioModel usuario) {
+		return usuarioService.criar(usuario);
 	}
 
-	// UPDATE
-	@PutMapping("/usuarios/{id}")
-	public UsuarioModel updateUsuario(@PathVariable Long id, @RequestBody UsuarioModel usuarioAtualizado) {
-		UsuarioModel usuario = usuarioRepository.findById(id)
-
-				.orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-		usuario.setNome(usuarioAtualizado.getNome());
-		usuario.setUsername(usuarioAtualizado.getUsername());
-		usuario.setEmail(usuarioAtualizado.getEmail());
-		return usuarioRepository.save(usuario);
+	@PutMapping("/{id}")
+	public UsuarioModel atualizar(@PathVariable Long id, @RequestBody UsuarioModel usuario) {
+		return usuarioService.atualizar(id, usuario);
 	}
 }

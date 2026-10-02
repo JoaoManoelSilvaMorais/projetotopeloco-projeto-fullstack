@@ -6,11 +6,10 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-import api from "../services/api";
 import type { Usuario } from "../types/Usuario";
 
 interface UsuarioFormProps {
-  onUsuarioSalvo: () => void;
+  onUsuarioSalvo: (dados: Omit<Usuario, "id">) => void | Promise<void>;
   usuarioEditando?: Usuario | null;
 }
 
@@ -23,13 +22,7 @@ function UsuarioForm({ onUsuarioSalvo, usuarioEditando }: UsuarioFormProps) {
     event.preventDefault();
     const dados = { nome, username, email };
 
-    if (usuarioEditando) {
-      await api.put(`/usuarios/${usuarioEditando.id}`, dados);
-    } else {
-      await api.post("/usuarios", dados);
-    }
-
-    onUsuarioSalvo();
+    await onUsuarioSalvo(dados);
   }
 
   return (

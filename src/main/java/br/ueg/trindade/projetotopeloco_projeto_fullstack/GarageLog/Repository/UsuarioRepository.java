@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.UsuarioModel;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
+	boolean existsByEmail(String email);
 }
