@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 
 @Entity
@@ -27,8 +28,13 @@ public class UsuarioModel {
 
     private String email;
 
-    @ManyToMany
-    //@JsonManagedReference
+    @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
+    @JoinTable(
+        name = "usuario_permissao",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "permissao_id")
+    )
+    @JsonManagedReference
     private Set<PermissaoModel> permissoes = new HashSet<>();
     
     public UsuarioModel() {
@@ -44,6 +50,10 @@ public class UsuarioModel {
     //Getters e setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -62,21 +72,17 @@ public class UsuarioModel {
         return permissoes;
     }
 
-    public String setNome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
-        return nome;
     }
-    public String setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return username;
     }
-    public String setSenha(String senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
-        return senha;
     }
-    public String setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return email;
     }
 
     public void setPermissoes(Set<PermissaoModel> permissoes) {

@@ -7,10 +7,20 @@ import type { Usuario } from "../types/Usuario";
 function UsuariosPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [usuarioEditando, setUsuarioEditando] = useState<Usuario | null>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState<string | null>(null);
 
   async function carregarUsuarios() {
-    const resposta = await api.get<Usuario[]>("/usuarios");
-    setUsuarios(resposta.data);
+    setCarregando(true);
+    setErro(null);
+    try {
+      const resposta = await api.get<Usuario[]>("/usuarios");
+      setUsuarios(resposta.data);
+    } catch {
+      setErro("Não foi possível carregar os usuários.");
+    } finally {
+      setCarregando(false);
+    }
   }
 
   useEffect(() => {
@@ -41,7 +51,9 @@ function UsuariosPage() {
         usuarioEditando={usuarioEditando}
         onUsuarioSalvo={salvarUsuario}
       />
-      <ul>
+      {carregando && <p>Carregando...</p>}
+      {erro && <p style={{ color: "red" }}>{erro}</p>}
+      {!carregando && !erro && <ul>
         {usuarios.map((usuario) => (
           <li key={usuario.id}>
             <UsuarioItem usuario={usuario} />
@@ -53,7 +65,7 @@ function UsuariosPage() {
             </button>
           </li>
         ))}
-      </ul>
+      </ul>}
     </main>
   );
 }

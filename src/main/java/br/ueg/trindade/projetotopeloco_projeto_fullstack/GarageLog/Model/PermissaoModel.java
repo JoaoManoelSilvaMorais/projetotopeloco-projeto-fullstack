@@ -10,8 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "permissao")
 public class PermissaoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +21,10 @@ public class PermissaoModel {
     
     private String nome;
     private String descricao;
+
+    @ManyToMany(mappedBy = "permissoes")
+    @JsonBackReference
+    private Set<UsuarioModel> usuarios = new HashSet<>();
 
     public PermissaoModel() {
     }
@@ -51,6 +57,14 @@ public class PermissaoModel {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Set<UsuarioModel> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<UsuarioModel> usuarios) {
+        this.usuarios = usuarios;
     }
 
 }

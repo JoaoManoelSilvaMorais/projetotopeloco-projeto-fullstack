@@ -18,7 +18,7 @@ import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Service.Permi
 
 
 @RestController
-@RequestMapping("/api/permissao")
+@RequestMapping("/api/permissoes")
 @CrossOrigin(origins = "http://localhost:5173")
 public class PermissaoController {
 	@Autowired

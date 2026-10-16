@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import DespesaForm from "../components/DespesaForm";
-import type { DespesaRecorrente, Veiculo } from "../types/Veiculo";
+import type { DespesaRecorrente } from "../types/DespesaRecorrente";
+import type { Veiculo } from "../types/Veiculo";
+import DespesaItem from "../components/DespesaItem";
 
 function DespesasRecorrentesPage() {
   const [despesas, setDespesas] = useState<DespesaRecorrente[]>([]);
@@ -71,7 +73,7 @@ function DespesasRecorrentesPage() {
       <ul>
         {despesas.map((despesa) => (
           <li key={despesa.id}>
-            {despesa.tipo}: R$ {despesa.valorMensal} - vencimento dia {despesa.diaVencimento}
+            <DespesaItem despesa={despesa} />
             <button type="button" onClick={() => setDespesaEditando(despesa)}>Editar</button>
             <button type="button" onClick={() => void excluirDespesa(despesa.id)}>Excluir</button>
           </li>

@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import type { DespesaRecorrente } from "../types/Veiculo";
+import type { DespesaRecorrente } from "../types/DespesaRecorrente";
 
 interface DespesaFormProps {
   despesaEditando?: DespesaRecorrente | null;

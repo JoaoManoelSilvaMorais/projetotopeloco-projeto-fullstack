@@ -49,4 +49,16 @@ public class UsuarioController {
 	public UsuarioModel atualizar(@PathVariable Long id, @RequestBody UsuarioModel usuario) {
 		return usuarioService.atualizar(id, usuario);
 	}
+
+	@GetMapping("/{id}/permissoes")
+	public UsuarioModel buscarPermissoes(@PathVariable Long id) {
+		return usuarioService.buscarPorId(id);
+	}
+
+	@PutMapping("/{id}/permissoes")
+	public UsuarioModel atualizarPermissoes(
+			@PathVariable Long id,
+			@RequestBody List<Long> idsPermissoes) {
+		return usuarioService.atribuirPermissoes(id, idsPermissoes);
+	}
 }

@@ -7,10 +7,20 @@ import type { Permissao } from "../types/Permissao";
 function PermissoesPage() {
   const [permissoes, setPermissoes] = useState<Permissao[]>([]);
   const [permissaoEditando, setPermissaoEditando] = useState<Permissao | null>(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState<string | null>(null);
 
   async function carregarPermissoes() {
-    const resposta = await api.get<Permissao[]>("/permissao");
-    setPermissoes(resposta.data);
+    setCarregando(true);
+    setErro(null);
+    try {
+      const resposta = await api.get<Permissao[]>("/permissoes");
+      setPermissoes(resposta.data);
+    } catch {
+      setErro("Não foi possível carregar as permissões.");
+    } finally {
+      setCarregando(false);
+    }
   }
 
   useEffect(() => {
@@ -19,9 +29,9 @@ function PermissoesPage() {
 
   async function salvarPermissao(dados: Omit<Permissao, "id">) {
     if (permissaoEditando) {
-      await api.put(`/permissao/${permissaoEditando.id}`, dados);
+      await api.put(`/permissoes/${permissaoEditando.id}`, dados);
     } else {
-      await api.post("/permissao", dados);
+      await api.post("/permissoes", dados);
     }
 
     setPermissaoEditando(null);
@@ -29,7 +39,7 @@ function PermissoesPage() {
   }
 
   async function excluirPermissao(id: number) {
-    await api.delete(`/permissao/${id}`);
+    await api.delete(`/permissoes/${id}`);
     await carregarPermissoes();
   }
 
@@ -41,7 +51,9 @@ function PermissoesPage() {
         permissaoEditando={permissaoEditando}
         onPermissaoSalva={salvarPermissao}
       />
-      <ul>
+      {carregando && <p>Carregando...</p>}
+      {erro && <p style={{ color: "red" }}>{erro}</p>}
+      {!carregando && !erro && <ul>
         {permissoes.map((permissao) => (
           <li key={permissao.id}>
             <PermissaoItem permissao={permissao} />
@@ -53,7 +65,7 @@ function PermissoesPage() {
             </button>
           </li>
         ))}
-      </ul>
+      </ul>}
     </main>
   );
 }

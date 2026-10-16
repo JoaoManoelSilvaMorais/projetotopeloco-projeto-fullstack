@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import VeiculoForm from "../components/VeiculoForm";
+import VeiculoItem from "../components/VeiculoItem";
 import type { Veiculo } from "../types/Veiculo";
 
 function VeiculosPage() {
@@ -43,8 +44,7 @@ function VeiculosPage() {
       <ul>
         {veiculos.map((veiculo) => (
           <li key={veiculo.id}>
-            <strong>{veiculo.marca} {veiculo.modeloBase}</strong>
-            {" "}({veiculo.placa}) - {veiculo.anoFabricacao}
+            <VeiculoItem veiculo={veiculo} />
             <button type="button" onClick={() => setVeiculoEditando(veiculo)}>
               Editar
             </button>

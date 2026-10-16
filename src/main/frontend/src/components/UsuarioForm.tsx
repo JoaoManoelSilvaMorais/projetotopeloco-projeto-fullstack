@@ -6,6 +6,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Usuario } from "../types/Usuario";
 
 interface UsuarioFormProps {
@@ -17,12 +18,14 @@ function UsuarioForm({ onUsuarioSalvo, usuarioEditando }: UsuarioFormProps) {
   const [nome, setNome] = useState(usuarioEditando?.nome ?? "");
   const [username, setUsername] = useState(usuarioEditando?.username ?? "");
   const [email, setEmail] = useState(usuarioEditando?.email ?? "");
+  const navigate = useNavigate();
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const dados = { nome, username, email };
 
     await onUsuarioSalvo(dados);
+    navigate("/usuarios");
   }
 
   return (

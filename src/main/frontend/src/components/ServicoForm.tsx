@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import type { ServicoManutencao } from "../types/Veiculo";
+import type { ServicoManutencao } from "../types/ServicoManutencao";
 
 interface ServicoFormProps {
   servicoEditando?: ServicoManutencao | null;

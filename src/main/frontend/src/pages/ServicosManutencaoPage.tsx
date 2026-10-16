@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import ServicoForm from "../components/ServicoForm";
-import type { ServicoManutencao, Veiculo } from "../types/Veiculo";
+import type { ServicoManutencao } from "../types/ServicoManutencao";
+import type { Veiculo } from "../types/Veiculo";
+import ServicoItem from "../components/ServicoItem";
 
 function ServicosManutencaoPage() {
   const [servicos, setServicos] = useState<ServicoManutencao[]>([]);
@@ -71,7 +73,7 @@ function ServicosManutencaoPage() {
       <ul>
         {servicos.map((servico) => (
           <li key={servico.id}>
-            {servico.tipoIntervencao} - {servico.descricao} ({servico.dataRealizacao})
+            <ServicoItem servico={servico} />
             <button type="button" onClick={() => setServicoEditando(servico)}>Editar</button>
             <button type="button" onClick={() => void excluirServico(servico.id)}>Excluir</button>
           </li>
