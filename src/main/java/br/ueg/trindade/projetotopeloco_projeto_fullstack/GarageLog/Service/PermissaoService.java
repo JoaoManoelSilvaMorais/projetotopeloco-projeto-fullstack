@@ -2,19 +2,23 @@ package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model.PermissaoModel;
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Repository.PermissaoRepository;
 
 @Service
 public class PermissaoService {
+    @Autowired
     private final PermissaoRepository permissaoRepository;
 
     public PermissaoService(PermissaoRepository permissaoRepository) {
         this.permissaoRepository = permissaoRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<PermissaoModel> listarTodos() {
         return permissaoRepository.findAll();
     }

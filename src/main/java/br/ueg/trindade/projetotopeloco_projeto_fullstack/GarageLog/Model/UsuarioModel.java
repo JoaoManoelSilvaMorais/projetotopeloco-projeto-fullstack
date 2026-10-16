@@ -1,26 +1,36 @@
 package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class UsuarioModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     private String nome;
     private String username;
-    
+
     @JsonIgnore
     private String senha;
 
     private String email;
 
+    @ManyToMany
+    //@JsonManagedReference
+    private Set<PermissaoModel> permissoes = new HashSet<>();
+    
     public UsuarioModel() {
     }
 
@@ -48,6 +58,9 @@ public class UsuarioModel {
     public String getEmail() {
         return email;
     }
+    public Set<PermissaoModel> getPermissoes() {
+        return permissoes;
+    }
 
     public String setNome(String nome) {
         this.nome = nome;
@@ -64,5 +77,9 @@ public class UsuarioModel {
     public String setEmail(String email) {
         this.email = email;
         return email;
+    }
+
+    public void setPermissoes(Set<PermissaoModel> permissoes) {
+        this.permissoes = permissoes;
     }
 }
