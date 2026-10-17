@@ -3,7 +3,7 @@ package br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ public class PermissaoModel {
     private String descricao;
 
     @ManyToMany(mappedBy = "permissoes")
-    @JsonBackReference
+    @JsonIgnore
     private Set<UsuarioModel> usuarios = new HashSet<>();
 
     public PermissaoModel() {

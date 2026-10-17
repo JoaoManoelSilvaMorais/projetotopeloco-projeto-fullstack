@@ -27,13 +27,7 @@ function PermissoesPage() {
     void carregarPermissoes();
   }, []);
 
-  async function salvarPermissao(dados: Omit<Permissao, "id">) {
-    if (permissaoEditando) {
-      await api.put(`/permissoes/${permissaoEditando.id}`, dados);
-    } else {
-      await api.post("/permissoes", dados);
-    }
-
+  async function salvarPermissao() {
     setPermissaoEditando(null);
     await carregarPermissoes();
   }
