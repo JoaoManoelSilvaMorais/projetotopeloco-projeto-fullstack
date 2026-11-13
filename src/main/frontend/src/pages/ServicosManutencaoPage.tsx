@@ -4,6 +4,7 @@ import ServicoForm from "../components/ServicoForm";
 import type { ServicoManutencao } from "../types/ServicoManutencao";
 import type { Veiculo } from "../types/Veiculo";
 import ServicoItem from "../components/ServicoItem";
+import Botao from "../components/Botao";
 
 function ServicosManutencaoPage() {
   const [servicos, setServicos] = useState<ServicoManutencao[]>([]);
@@ -74,8 +75,8 @@ function ServicosManutencaoPage() {
         {servicos.map((servico) => (
           <li key={servico.id}>
             <ServicoItem servico={servico} />
-            <button type="button" onClick={() => setServicoEditando(servico)}>Editar</button>
-            <button type="button" onClick={() => void excluirServico(servico.id)}>Excluir</button>
+            <Botao type="button" variante="neutro" onClick={() => setServicoEditando(servico)}>Editar</Botao>
+            <Botao type="button" variante="perigo" onClick={() => void excluirServico(servico.id)}>Excluir</Botao>
           </li>
         ))}
       </ul>

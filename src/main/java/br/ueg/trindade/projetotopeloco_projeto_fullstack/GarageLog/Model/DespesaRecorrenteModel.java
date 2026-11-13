@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Enum.TipoDespesa;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,7 +28,7 @@ public class DespesaRecorrenteModel {
     private Boolean statusAtivo;
     
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties({"historicoServicos", "despesas"})
     private VeiculoModel veiculo;
     
     public UUID getId() {

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import Botao from "./Botao";
 import type { DespesaRecorrente } from "../types/DespesaRecorrente";
 
 interface DespesaFormProps {
@@ -36,7 +37,7 @@ function DespesaForm({ despesaEditando, onDespesaSalva }: DespesaFormProps) {
         <input type="checkbox" checked={statusAtivo} onChange={(event) => setStatusAtivo(event.target.checked)} />
         Ativa
       </label>
-      <button type="submit">{despesaEditando ? "Salvar despesa" : "Adicionar despesa"}</button>
+      <Botao type="submit" variante="primario">{despesaEditando ? "Salvar despesa" : "Adicionar despesa"}</Botao>
     </form>
   );
 }

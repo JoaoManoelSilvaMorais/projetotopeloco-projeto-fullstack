@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import api from "../services/api";
+import Botao from "./Botao";
 import type { Permissao } from "../types/Permissao";
 
 interface PermissaoFormProps {
@@ -46,9 +47,9 @@ function PermissaoForm({ onPermissaoSalva, permissaoEditando }: PermissaoFormPro
         placeholder="Descrição"
         required
       />
-      <button type="submit">
+      <Botao type="submit" variante="primario">
         {permissaoEditando ? "Salvar alterações" : "Cadastrar"}
-      </button>
+      </Botao>
       {erro && <p style={{ color: "red" }}>{erro}</p>}
     </form>
   );

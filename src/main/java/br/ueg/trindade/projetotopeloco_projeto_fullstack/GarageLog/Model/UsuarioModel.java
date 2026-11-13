@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,10 +23,12 @@ public class UsuarioModel {
     private String nome;
     private String username;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String senha;
 
     private String email;
+
+    private Boolean precisaTrocarSenha = Boolean.FALSE;
 
     @ManyToMany(fetch = jakarta.persistence.FetchType.EAGER)
     @JoinTable(
@@ -85,5 +88,13 @@ public class UsuarioModel {
 
     public void setPermissoes(Set<PermissaoModel> permissoes) {
         this.permissoes = permissoes;
+    }
+
+    public boolean isPrecisaTrocarSenha() {
+        return Boolean.TRUE.equals(precisaTrocarSenha);
+    }
+
+    public void setPrecisaTrocarSenha(Boolean precisaTrocarSenha) {
+        this.precisaTrocarSenha = precisaTrocarSenha != null ? precisaTrocarSenha : Boolean.FALSE;
     }
 }

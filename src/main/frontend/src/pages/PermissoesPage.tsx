@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import PermissaoForm from "../components/PermissaoForm";
 import PermissaoItem from "../components/PermissaoItem";
+import Botao from "../components/Botao";
 import type { Permissao } from "../types/Permissao";
 
 function PermissoesPage() {
@@ -51,12 +52,12 @@ function PermissoesPage() {
         {permissoes.map((permissao) => (
           <li key={permissao.id}>
             <PermissaoItem permissao={permissao} />
-            <button type="button" onClick={() => setPermissaoEditando(permissao)}>
+            <Botao type="button" variante="neutro" onClick={() => setPermissaoEditando(permissao)}>
               Editar
-            </button>
-            <button type="button" onClick={() => void excluirPermissao(permissao.id)}>
+            </Botao>
+            <Botao type="button" variante="perigo" onClick={() => void excluirPermissao(permissao.id)}>
               Excluir
-            </button>
+            </Botao>
           </li>
         ))}
       </ul>}

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import br.ueg.trindade.projetotopeloco_projeto_fullstack.GarageLog.Enum.CategoriaVeiculo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -33,9 +34,11 @@ public class VeiculoModel {
     private Integer anoFabricacao;
 
     @OneToMany(mappedBy = "veiculo", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("veiculo")
     private List<ServicoManutencaoModel> historicoServicos = new ArrayList<>();
 
     @OneToMany(mappedBy = "veiculo", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("veiculo")
     private List<DespesaRecorrenteModel> despesas = new ArrayList<>();
 
     public VeiculoModel() {
@@ -83,6 +86,14 @@ public class VeiculoModel {
         this.modeloBase = modeloBase;
     }
 
+    public String getModelo() {
+        return modeloBase;
+    }
+
+    public void setModelo(String modelo) {
+        this.modeloBase = modelo;
+    }
+
     public CategoriaVeiculo getCategoria() {
         return categoria;
     }
@@ -111,6 +122,10 @@ public class VeiculoModel {
         return historicoServicos;
     }
 
+    public void setHistoricoServicos(List<ServicoManutencaoModel> historicoServicos) {
+        this.historicoServicos = historicoServicos;
+    }
+
     public void adicionarServico(ServicoManutencaoModel servico) {
         if (servico != null && !historicoServicos.contains(servico)) {
             historicoServicos.add(servico);
@@ -120,6 +135,10 @@ public class VeiculoModel {
 
     public List<DespesaRecorrenteModel> getDespesas() {
         return despesas;
+    }
+
+    public void setDespesas(List<DespesaRecorrenteModel> despesas) {
+        this.despesas = despesas;
     }
 
     public void adicionarDespesa(DespesaRecorrenteModel despesa) {

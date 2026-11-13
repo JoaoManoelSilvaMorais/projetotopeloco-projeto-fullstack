@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import Botao from "./Botao";
 import type { Veiculo } from "../types/Veiculo";
 
 interface VeiculoFormProps {
@@ -40,7 +41,7 @@ function VeiculoForm({ onVeiculoSalvo, veiculoEditando }: VeiculoFormProps) {
       </select>
       <input value={especificacaoMotor} onChange={(event) => setEspecificacaoMotor(event.target.value)} placeholder="Especificação do motor" required />
       <input type="number" value={anoFabricacao} onChange={(event) => setAnoFabricacao(event.target.value)} placeholder="Ano de fabricação" required />
-      <button type="submit">{veiculoEditando ? "Salvar alterações" : "Cadastrar veículo"}</button>
+      <Botao type="submit" variante="primario">{veiculoEditando ? "Salvar alterações" : "Cadastrar veículo"}</Botao>
     </form>
   );
 }

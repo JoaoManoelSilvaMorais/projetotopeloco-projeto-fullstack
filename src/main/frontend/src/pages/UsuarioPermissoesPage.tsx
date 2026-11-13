@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import Botao from "../components/Botao";
 import type { Usuario } from "../types/Usuario";
 import type { Permissao } from "../types/Permissao";
 
@@ -63,7 +64,7 @@ function UsuarioPermissoesPage() {
           {" "}{permissao.nome} — {permissao.descricao}
         </label>)}
       </fieldset>
-      <button type="button" onClick={() => void salvar()} disabled={usuarioId === null}>Salvar permissões</button>
+      <Botao type="button" variante="primario" onClick={() => void salvar()} disabled={usuarioId === null}>Salvar permissões</Botao>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import VeiculoForm from "../components/VeiculoForm";
 import VeiculoItem from "../components/VeiculoItem";
+import Botao from "../components/Botao";
 import type { Veiculo } from "../types/Veiculo";
 
 function VeiculosPage() {
@@ -45,12 +46,12 @@ function VeiculosPage() {
         {veiculos.map((veiculo) => (
           <li key={veiculo.id}>
             <VeiculoItem veiculo={veiculo} />
-            <button type="button" onClick={() => setVeiculoEditando(veiculo)}>
+            <Botao type="button" variante="neutro" onClick={() => setVeiculoEditando(veiculo)}>
               Editar
-            </button>
-            <button type="button" onClick={() => void excluirVeiculo(veiculo.id)}>
+            </Botao>
+            <Botao type="button" variante="perigo" onClick={() => void excluirVeiculo(veiculo.id)}>
               Excluir
-            </button>
+            </Botao>
           </li>
         ))}
       </ul>

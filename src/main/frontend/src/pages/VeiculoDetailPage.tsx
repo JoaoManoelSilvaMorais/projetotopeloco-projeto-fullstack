@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../services/api";
+import Botao from "../components/Botao";
 import type { Veiculo } from "../types/Veiculo";
 
 function VeiculoDetailPage() {
@@ -14,9 +15,9 @@ function VeiculoDetailPage() {
       .catch(() => setErro("Erro ao carregar detalhes do veículo."));
   }, [id]);
 
-  if (erro) return <div><p style={{ color: "red" }}>{erro}</p><button onClick={() => navigate("/veiculos")}>Voltar</button></div>;
+  if (erro) return <div><p style={{ color: "red" }}>{erro}</p><Botao type="button" variante="neutro" onClick={() => navigate("/veiculos")}>Voltar</Botao></div>;
   if (!veiculo) return <p>Carregando...</p>;
-  return <div><h1>{veiculo.marca} {veiculo.modeloBase}</h1><p><strong>Placa:</strong> {veiculo.placa}</p><p><strong>Ano:</strong> {veiculo.anoFabricacao}</p><p><strong>Categoria:</strong> {veiculo.categoria}</p><button onClick={() => navigate("/veiculos")}>Voltar</button></div>;
+  return <div><h1>{veiculo.marca} {veiculo.modeloBase}</h1><p><strong>Placa:</strong> {veiculo.placa}</p><p><strong>Ano:</strong> {veiculo.anoFabricacao}</p><p><strong>Categoria:</strong> {veiculo.categoria}</p><Botao type="button" variante="neutro" onClick={() => navigate("/veiculos")}>Voltar</Botao></div>;
 }
 
 export default VeiculoDetailPage;

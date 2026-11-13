@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import Botao from "./Botao";
 import type { ServicoManutencao } from "../types/ServicoManutencao";
 
 interface ServicoFormProps {
@@ -42,7 +43,7 @@ function ServicoForm({ servicoEditando, onServicoSalvo }: ServicoFormProps) {
       <input type="number" min="0" value={proximaRevisaoKm} onChange={(event) => setProximaRevisaoKm(event.target.value)} placeholder="Próxima revisão (KM)" required />
       <input type="number" min="0" step="0.01" value={custoPecas} onChange={(event) => setCustoPecas(event.target.value)} placeholder="Custo das peças" />
       <input type="number" min="0" step="0.01" value={custoMaoDeObra} onChange={(event) => setCustoMaoDeObra(event.target.value)} placeholder="Custo da mão de obra" />
-      <button type="submit">{servicoEditando ? "Salvar serviço" : "Adicionar serviço"}</button>
+      <Botao type="submit" variante="primario">{servicoEditando ? "Salvar serviço" : "Adicionar serviço"}</Botao>
     </form>
   );
 }

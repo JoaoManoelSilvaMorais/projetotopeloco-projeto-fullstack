@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../services/api";
+import Botao from "../components/Botao";
 import type { Permissao } from "../types/Permissao";
 
 function PermissaoDetailPage() {
@@ -14,9 +15,9 @@ function PermissaoDetailPage() {
       .catch(() => setErro("Erro ao carregar detalhes da permissão."));
   }, [id]);
 
-  if (erro) return <div><p style={{ color: "red" }}>{erro}</p><button onClick={() => navigate("/permissoes")}>Voltar</button></div>;
+  if (erro) return <div><p style={{ color: "red" }}>{erro}</p><Botao type="button" variante="neutro" onClick={() => navigate("/permissoes")}>Voltar</Botao></div>;
   if (!permissao) return <p>Carregando...</p>;
-  return <div><h1>{permissao.nome}</h1><p><strong>Descrição:</strong> {permissao.descricao}</p><button onClick={() => navigate("/permissoes")}>Voltar</button></div>;
+  return <div><h1>{permissao.nome}</h1><p><strong>Descrição:</strong> {permissao.descricao}</p><Botao type="button" variante="neutro" onClick={() => navigate("/permissoes")}>Voltar</Botao></div>;
 }
 
 export default PermissaoDetailPage;

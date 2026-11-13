@@ -5,5 +5,6 @@ export interface Usuario {
     nome: string;
     username: string;
     email: string;
+    precisaTrocarSenha?: boolean;
     permissoes?: Permissao[];
 }

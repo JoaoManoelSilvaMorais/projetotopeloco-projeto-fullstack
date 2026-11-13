@@ -4,6 +4,7 @@ import DespesaForm from "../components/DespesaForm";
 import type { DespesaRecorrente } from "../types/DespesaRecorrente";
 import type { Veiculo } from "../types/Veiculo";
 import DespesaItem from "../components/DespesaItem";
+import Botao from "../components/Botao";
 
 function DespesasRecorrentesPage() {
   const [despesas, setDespesas] = useState<DespesaRecorrente[]>([]);
@@ -74,8 +75,8 @@ function DespesasRecorrentesPage() {
         {despesas.map((despesa) => (
           <li key={despesa.id}>
             <DespesaItem despesa={despesa} />
-            <button type="button" onClick={() => setDespesaEditando(despesa)}>Editar</button>
-            <button type="button" onClick={() => void excluirDespesa(despesa.id)}>Excluir</button>
+            <Botao type="button" variante="neutro" onClick={() => setDespesaEditando(despesa)}>Editar</Botao>
+            <Botao type="button" variante="perigo" onClick={() => void excluirDespesa(despesa.id)}>Excluir</Botao>
           </li>
         ))}
       </ul>
